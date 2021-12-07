@@ -1,0 +1,24 @@
+﻿@{
+    var userId = ViewBag.userId;
+}
+<div class="container">
+    <input hidden asp-for=@userId id="userId" />
+    <h2 class="text-center my-5"> My Tickets Assigned </h2>
+    <table id="tableData" class="table table-bordered table-striped text-center" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Requester</th>
+                <th>Status</th>
+                <th>Response</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/TicketsIT.js"></script>
+}
