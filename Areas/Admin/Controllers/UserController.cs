@@ -108,7 +108,6 @@ namespace ITicketSystem.Areas.Admin.Controllers
         }
 
         #region API
-        [HttpGet]
         public IActionResult GetAll()
         {
             var users = _db.ApplicationUsers.Select(x => new
