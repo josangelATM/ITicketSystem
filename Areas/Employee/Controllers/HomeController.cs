@@ -22,5 +22,11 @@ namespace ITicketSystem.Areas.Employee.Controllers
         {
             return View();
         }
+
+        public IActionResult Error()
+        {
+
+            return View();
+        }
     }
 }

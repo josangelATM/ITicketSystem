@@ -40,10 +40,26 @@ namespace ITicketSystem.Areas.IT.Controllers
             return View();  
         }
 
+        
+
         public IActionResult Details(int id)
         {
-            _logger.LogInformation("WHYYY?");
             var ticketInDb = _db.Tickets.FirstOrDefault(t => t.Id == id);
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = _db.ApplicationUsers.FirstOrDefault(a => a.Id == claim.Value).Id;
+
+            if (ticketInDb == null)
+            {
+                Response.StatusCode = 404;
+                ViewBag.Message = "Requested ticket not found, sorry.";
+                return View("~/Areas/Employee/Views/Home/Error.cshtml");
+            }
+            if(ticketInDb.AssignedToId != userId && !User.IsInRole(Const.Role_Admin))
+            {
+                return View("~/Areas/Employee/Views/Home/AccessDenied.cshtml");
+            }
+
             TicketVM ticketVM = new TicketVM()
             {
                 ticket = ticketInDb,
@@ -88,19 +104,22 @@ namespace ITicketSystem.Areas.IT.Controllers
             _db.SaveChanges();
 
             _notyf.Success("Ticket updated.");
+            if (User.IsInRole(Const.Role_Admin))
+            {
+                return RedirectToAction("AdminIndex");
+            }
             return RedirectToAction("Index");
             
         }
 
         #region API 
-        //IT/Ticket/GetTickets
-        public IActionResult GetTickets(string Id)
+        public IActionResult GetAll()
         {
 
-            var tickets = _db.Tickets.Where(a => a.AssignedToId == Id).Select(x => new
+            var tickets = _db.Tickets.Select(x => new
             {
                 ticket = x,
-                requester =  new
+                requester = new
                 {
                     id = x.Requester.Id,
                     userName = x.Requester.UserName
@@ -116,7 +135,29 @@ namespace ITicketSystem.Areas.IT.Controllers
             return Ok(jsonData);
         }
 
+        //IT/Ticket/GetTickets Getting tickets based on IT ID.
+        public IActionResult GetTickets(string Id)
+        {
 
+            var tickets = _db.Tickets.Where(a => a.AssignedToId == Id).Select(x => new
+            {
+                ticket = x,
+                requester = new
+                {
+                    id = x.Requester.Id,
+                    userName = x.Requester.UserName
+                },
+                ticketTypeTitle = x.TicketType.Title
+            });
+            var jsonData = new
+            {
+                data = tickets
+            };
+
+
+            return Ok(jsonData);
+        }
         #endregion
+
     }
 }

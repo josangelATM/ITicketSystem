@@ -1,27 +1,29 @@
 ﻿@model ITicketSystem.Models.ViewModels.TicketVM
-
+@{
+    ViewData["Title"] = "Create a Ticket";
+}
 <form method="post" asp-action="Create" class="container mt-5">
     <input asp-for=@Model.ticketType.Id hidden />
     <div class="row d-flex justify-content-center align-items-center my-3">
-        <div class="col-3">
+        <div class="col-8 text-center">
             <h2>@Model.ticketType.Title</h2>
         </div>
     </div>
     <div class="row d-flex justify-content-center my-3">
-        <div class="col-6 gy-3">
+        <div class="col-8 gy-3">
             <p>@Model.ticketType.Description</p>
         </div>
     </div>
     <div class="row d-flex justify-content-center my-3">
-        <div class="col-6 gy-3">
-            <textarea class="form-control" asp-for=@Model.ticket.Comments placeholder="Leave yours comments here..." style="max-height:10rem"  cols="60" rows="5"></textarea>
+        <div class="col-8 gy-3">
+            <textarea class="form-control" asp-for=@Model.ticket.Comments placeholder="Leave yours comments here..." style="max-height:10rem" cols="60" rows="5"></textarea>
         </div>
     </div>
     <div class="row d-flex justify-content-center mt-4">
-        <div class="col-2 gy-4 d-flex justify-content-center">
+        <div class="col-4 col-sm-2 d-flex justify-content-center">
             <a asp-controller="TicketType" asp-action="Index" class="btn btn-info">Go back</a>
         </div>
-        <div class="col-2 gy-4 d-flex justify-content-center">
+        <div class="col-4 col-sm-2 d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">Send Ticket</button>
         </div>
     </div>

@@ -115,7 +115,6 @@ namespace ITicketSystem.Areas.Identity.Pages.Account
                 })
             };
 
-
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -187,6 +186,15 @@ namespace ITicketSystem.Areas.Identity.Pages.Account
                     }
                     foreach (var error in result.Errors)
                     {
+                        Input = new InputModel()
+                        {
+                            RoleList = _roleManager.Roles.Select(r => r.Name).Select(i => new SelectListItem
+                            {
+                                Text = i,
+                                Value = i
+                            })
+                        };
+
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }

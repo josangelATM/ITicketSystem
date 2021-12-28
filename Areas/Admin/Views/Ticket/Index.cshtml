@@ -1,20 +1,18 @@
-﻿@{ 
+﻿@{
     var userId = ViewBag.userId;
-    ViewData["Title"] = "My Tickets";
+    ViewData["Title"] = "Ticket Index";
 }
-
-
-
 <div class="container">
-    <input hidden asp-for=@userId id="userId"/>
-    <h2 class="text-center my-5"> My Tickets </h2>
+    <input hidden asp-for=@userId id="userId" />
+    <h2 class="text-center my-5"> Tickets Index </h2>
     <div class="table-responsive">
         <table id="tableData" class="table table-dark table-bordered border border-white text-center align-middle" style="width:100%">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Type</th>
-                    <th>Assigned To</th>
+                    <th>Asigned To</th>
+                    <th>Requester</th>
                     <th>Status</th>
                     <th>Response</th>
                     <th></th>
@@ -22,10 +20,9 @@
             </thead>
         </table>
     </div>
-    
 </div>
 
 
-@section Scripts{
-    <script src="~/js/TicketsEmployee.js"></script>
-}
+    @section Scripts{
+        <script src="~/js/TicketsAdmin.js"></script>
+    }

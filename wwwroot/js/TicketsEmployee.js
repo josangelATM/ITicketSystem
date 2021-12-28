@@ -20,7 +20,7 @@ function loadDataTable() {
                 "render": function(data) {
                     return ` <div>
                         <a href="/Employee/Ticket/Details/${data}"
-                        class="btn btn-primary">Go to Ticket</a>
+                        class="btn btn-primary btn-sm">Go to Ticket</a>
 					    </div>
                         `
                 },

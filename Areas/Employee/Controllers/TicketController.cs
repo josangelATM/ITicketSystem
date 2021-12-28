@@ -46,7 +46,22 @@ namespace ITicketSystem.Areas.Employee.Controllers
         
         public IActionResult Details(int id)
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = _db.ApplicationUsers.FirstOrDefault(a => a.Id == claim.Value).Id;
+
             var ticketInDb = _db.Tickets.FirstOrDefault(t => t.Id == id);
+            if(ticketInDb == null) 
+            {
+                Response.StatusCode = 404;
+                ViewBag.Message = "Requested ticket not found, sorry.";
+                return View("~/Areas/Employee/Views/Home/Error.cshtml");
+            }
+            if (ticketInDb.RequesterId != userId && !User.IsInRole(Const.Role_Admin))
+            {
+                return View("~/Areas/Employee/Views/Home/AccessDenied.cshtml");
+            }
+
             TicketVM ticketVM = new TicketVM()
             {
                 ticket = ticketInDb,
@@ -63,7 +78,13 @@ namespace ITicketSystem.Areas.Employee.Controllers
                 ticketType = _db.TicketTypes.FirstOrDefault(t => t.Id == id)
             };
 
-            _logger.LogInformation("Here");
+            if (ticketVM.ticketType == null)
+            {
+                Response.StatusCode = 404;
+                ViewBag.Message = "Requested ticket type not found, sorry.";
+                return View("~/Areas/Employee/Views/Home/Error.cshtml");
+            }
+
             return View(ticketVM); 
         }
 

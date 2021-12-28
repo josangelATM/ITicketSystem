@@ -1,8 +1,112 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using ITicketSystem.Utility
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="carouselExampleSlidesOnly" class="d-none d-lg-block carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/images/heroHomePage.jpg" data-bs-interval="1000" class="d-block w-100" alt="...">
+        </div>
+    </div>
+</div>
+
+
+
+<div class="bg-light">
+    <div class="container my-5">
+        @if (User.IsInRole(Const.Role_Admin))
+        {
+            <div class="row row-cols-2 row-cols-sm-3 justify-content-around gy-5">
+                <div class="col d-flex position-relative">
+                    <div class="d-flex align-items-center me-3">
+                        <i class="fas fa-tools fa-4x"></i>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <h3>Request something</h3>
+                        <p class="mb-0">Create new ticket.</p>
+                        <a asp-area="Employee" asp-controller="TicketType" asp-action="Index" class="stretched-link"></a>
+                    </div>
+                </div>
+                <div class="col d-flex position-relative">
+                    <div class="d-flex align-items-center me-3">
+                        <i class="fas fa-list fa-4x"></i>
+                    </div>
+                    <diV class="d-flex flex-column justify-content-center">
+                        <h3>My tickets</h3>
+                        <p class="mb-0">Browse all the tickets.</p>
+                        <a asp-area="Admin" asp-controller="Ticket" asp-action="Index" class="stretched-link"></a>
+                    </diV>
+                </div>
+                <div class="col d-flex position-relative">
+                    <div class="d-flex align-items-center me-3">
+                        <i class="fas fa-user fa-4x"></i>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <h3>Account</h3>
+                        <p class="mb-0">View and edit your account info.</p>
+                        <a href="#" class="stretched-link"></a>
+                    </div>
+                </div>
+                <div class="col d-flex position-relative">
+                    <div class="d-flex align-items-center me-3">
+                        <i class="fas fa-users fa-4x"></i>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <h3>Users</h3>
+                        <p class="mb-0">Manage users.</p>
+                        <a asp-area="Admin" asp-controller="User" asp-action="Index" class="stretched-link"></a>
+                    </div>
+                </div>
+                <div class="col d-flex position-relative">
+                    <div class="d-flex align-items-center me-3">
+                        <i class="fas fa-clipboard-list fa-4x"></i>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <h3>Ticket Types</h3>
+                        <p class="mb-0">Manage Ticket Types</p>
+                        <a asp-area="Admin" asp-controller="TicketType" asp-action="Index" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-2 row-cols-sm-3 justify-content-around gy-5">
+                <div class="col d-flex position-relative">
+                    <div class="d-flex align-items-center me-3">
+                        <i class="fas fa-tools fa-4x"></i>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <h3>Request something</h3>
+                        <p class="mb-0">Create new ticket.</p>
+                        <a asp-area="Employee" asp-controller="TicketType" asp-action="Index" class="stretched-link"></a>
+                    </div>
+                </div>
+                <div class="col d-flex position-relative">
+                    <div class="d-flex align-items-center me-3">
+                        <i class="fas fa-list fa-4x"></i>
+                    </div>
+                    <diV class="d-flex flex-column justify-content-center">
+                        <h3>My tickets</h3>
+                        <p class="mb-0">Browse your tickets.</p>
+                        <a asp-area="Employee" asp-controller="Ticket" asp-action="Index" class="stretched-link"></a>
+                    </diV>
+                </div>
+                <div class="col d-flex position-relative">
+                    <div class="d-flex align-items-center me-3">
+                        <i class="fas fa-user fa-4x"></i>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <h3>Account</h3>
+                        <p class="mb-0">View and edit your account info.</p>
+                        <a href="#" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+
 </div>

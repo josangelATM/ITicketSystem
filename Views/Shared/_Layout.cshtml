@@ -6,34 +6,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ITicketSystem</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+    <script src="https://kit.fontawesome.com/881b00f717.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
-<body>
+<body id="body">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow">
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ITicketSystem</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                        <i class="fas fa-bars"></i>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="Employee" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Tickets
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-controller="TicketType" asp-action="Index">Create Ticket</a>
-                                @if (User.IsInRole(Const.Role_Admin) || User.IsInRole(Const.Role_IT))
+                                <a class="dropdown-item" asp-area="Employee" asp-controller="TicketType" asp-action="Index">Create Ticket</a>
+                                @if (User.IsInRole(Const.Role_IT))
                                 {
-                                    <a class="dropdown-item" href="#">Search Ticket</a>
                                     <a class="dropdown-item" asp-area="IT" asp-controller="Ticket" asp-action="Index">My Tickets</a>
+                                }
+                                else if (User.IsInRole(Const.Role_Admin))
+                                {
+
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Ticket" asp-action="Index">My Tickets</a>
                                 }
                                 else
                                 {
@@ -45,12 +53,27 @@
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Ticket Types
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="TicketType" asp-action="Create">Create Ticket Type</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="TicketType" asp-action="Index">Show Ticket Types</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Users
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Create User</a>
-                                    <a class="dropdown-item" href="#">Manage Users</a>
+                                    <a class="dropdown-item" href="/Identity/Account/Register">Create User</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Manage Users</a>
                                 </div>
+                            </li>
+                        }
+                        else if (User.IsInRole(Const.Role_IT))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="IT" asp-controller="TicketType" asp-action="Index">Ticket Types</a>
                             </li>
                         }
 
@@ -60,7 +83,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid px-0">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -68,13 +91,16 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - ITicketSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - ITicketSystem - Created by <a href="https://www.linkedin.com/in/josé-ángel-sánchez-821804145/" target="_blank">JoséAngel Sanchez</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/mdChange.js"></script>
     <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
 </body>

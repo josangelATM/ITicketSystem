@@ -1,29 +1,23 @@
 ﻿@{
-    var userId = ViewBag.userId;
-    ViewData["Title"] = "My Tickets";
-
-
+    ViewData["Title"] = "Ticket Index";
 }
 <div class="container">
-    <input hidden asp-for=@userId id="userId" />
-    <h2 class="text-center my-5"> My Tickets Assigned </h2>
+    <h2 class="text-center my-5"> Tickets Types </h2>
     <div class="table-responsive">
         <table id="tableData" class="table table-dark table-bordered border border-white text-center align-middle" style="width:100%">
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Type</th>
-                    <th>Requester</th>
-                    <th>Status</th>
-                    <th>Response</th>
+                    <th>Title</th>
+                    <th>Description</th>
                     <th></th>
                 </tr>
             </thead>
         </table>
+     </div>
     </div>
-</div>
 
 
     @section Scripts{
-        <script src="~/js/TicketsIT.js"></script>
+        <script src="~/js/TicketsTypeAdmin.js"></script>
     }

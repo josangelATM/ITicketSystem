@@ -1,5 +1,4 @@
 ﻿var dataTable;
-
 $(document).ready(function () {
     loadDataTable();
 });
@@ -20,7 +19,7 @@ function loadDataTable() {
                 "render": function (data) {
                     return ` <div>
                         <a href="/IT/Ticket/Details/${data}"
-                        class="btn btn-primary">Edit</a>
+                        class="btn btn-primary btn-sm">Edit</a>
 					    </div>
                         `
                 },
@@ -29,3 +28,4 @@ function loadDataTable() {
         ]
     });
 }
+

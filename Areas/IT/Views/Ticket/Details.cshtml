@@ -1,36 +1,40 @@
 ﻿@model ITicketSystem.Models.ViewModels.TicketVM
+@using ITicketSystem.Utility
+@{
+    ViewData["Title"] = "Ticket # " + Model.ticket.Id;
+}
 
 <form method="post" asp-action="Details" class="container mt-5">
     <input asp-for=@Model.ticket.Id hidden />
-    <div class="row d-flex justify-content-center align-items-center my-3">
-        <div class="col-3">
+    <div class="row d-flex justify-content-center my-2">
+        <div class="col-8">
             <h2 class="text-center">Ticket # @Model.ticket.Id</h2>
         </div>
     </div>
-    <div class="row d-flex justify-content-center align-items-center my-3">
-        <div class="col-3">
+    <div class="row d-flex justify-content-center my-2">
+        <div class="col-8">
             <h2 class="text-center">@Model.ticketType.Title</h2>
         </div>
     </div>
-    <div class="row d-flex justify-content-center my-3">
-        <div class="col-6 gy-3">
+    <div class="row d-flex justify-content-center my-2">
+        <div class="col-8 gy-3">
             <p>@Model.ticketType.Description</p>
         </div>
     </div>
-    <div class="row d-flex justify-content-center my-3">
-        <div class="col-6 gy-3">
+    <div class="row d-flex justify-content-center my-2">
+        <div class="col-8 gy-3">
             <label asp-for="@Model.ticket.Comments"></label>
             <textarea class="form-control" asp-for=@Model.ticket.Comments placeholder="Leave yours comments here..." style="max-height:10rem" cols="60" rows="5" disabled></textarea>
         </div>
     </div>
-    <div class="row d-flex justify-content-center my-3">
-        <div class="col-6 gy-3">
+    <div class="row d-flex justify-content-center my-2">
+        <div class="col-8 gy-3">
             <label asp-for="@Model.ticket.Response"></label>
             <textarea class="form-control" asp-for=@Model.ticket.Response placeholder="Leave your response here..." style="max-height:10rem" cols="60" rows="5"></textarea>
         </div>
     </div>
     <div class="row d-flex justify-content-center my-3">
-        <div class="col-6 gy-3">
+        <div class="col-4 gy-3">
             <label asp-for="@Model.ticket.Status"></label>
             <select asp-for="@Model.ticket.Status" asp-items="@ViewBag.statusOptions" class="form-control">
                 <option disabled selected>-Select Role-</option>
@@ -38,10 +42,18 @@
         </div>
     </div>
     <div class="row d-flex justify-content-center mt-4">
-        <div class="col-2 gy-4 d-flex justify-content-center">
-            <a asp-controller="Ticket" asp-action="Index" class="btn btn-info">Go to My Tickets</a>
+        <div class="col-5 col-sm-4 d-flex justify-content-center">
+            @if (User.IsInRole(Const.Role_Admin))
+            {
+                <a asp-controller="Ticket" asp-action="AdminIndex" class="btn btn-info">Go to My Tickets</a>
+            }
+            else
+            {
+                <a asp-controller="Ticket" asp-action="Index" class="btn btn-info">Go to My Tickets</a>
+            }
+
         </div>
-        <div class="col-2 gy-4 d-flex justify-content-center">
+        <div class="col-5 col-sm-4 d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">Update Ticket</button>
         </div>
     </div>
