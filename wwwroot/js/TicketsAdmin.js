@@ -4,6 +4,11 @@ $(document).ready(function () {
 });
 
 function loadDataTable() {
+    $.ajax({
+        url: "/Admin/User/GetAll/"
+    }).done((data) => {
+        console.log(data)
+    })
     dataTable = $('#tableData').DataTable({
         "ajax": {
             "url": "/Admin/Ticket/GetAll/"

@@ -1,15 +1,13 @@
 ﻿var dataTable;
+
 $(document).ready(function () {
     loadDataTable();
 });
 
 function loadDataTable() {
-    $.ajax("/Admin/User/GetAll").done(data => {
-        console.log(data)
-    })
     dataTable = $('#tableData').DataTable({
         "ajax": {
-            "url": "/Admin/User/GetAll"
+            "url": "/Admin/User/All/"
         },
         "columns": [
             { "data": "user.employeeNumber", "width": "10%" },
@@ -17,7 +15,7 @@ function loadDataTable() {
             { "data": "user.email", "width": "15%" },
             { "data": "user.firstName", "width": "15%" },
             { "data": "user.lastname", "width": "15%" },
-            { "data": "role", "width": "15%" },
+            { "data": "user.position", "width": "15%" },
             {
                 "data": "user.id",
                 "render": function (data) {

@@ -44,6 +44,7 @@ namespace ITicketSystem
             });
             services.AddScoped<IDbSeeder, DbSeeder>();
             services.AddScoped<IAssignationManager, AssignationManager>();
+            services.AddScoped<IRoleHelper, RoleHelper>();
             services.AddControllersWithViews();
             services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
             services.AddRazorPages().AddRazorRuntimeCompilation();

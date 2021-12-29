@@ -3,6 +3,7 @@ using AutoMapper;
 using ITicketSystem.Data;
 using ITicketSystem.Models;
 using ITicketSystem.Models.ViewModels;
+using ITicketSystem.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -25,19 +26,23 @@ namespace ITicketSystem.Areas.Admin.Controllers
         private readonly INotyfService _notyf;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<UserController> _logger;
+        private readonly IRoleHelper _roleHelper;
 
         public UserController(ApplicationDbContext db,
             UserManager<IdentityUser> userManager,
             INotyfService notyf,
             RoleManager<IdentityRole> roleManager,
-            ILogger<UserController> logger)
+            ILogger<UserController> logger,
+            IRoleHelper roleHelper)
         {
             _logger = logger;
             _roleManager = roleManager;
             _db = db;
             _userManager = userManager;
             _notyf = notyf;
+            _roleHelper = roleHelper;
         }
+
 
         // GET: UserController
         public ActionResult Index()
@@ -108,20 +113,18 @@ namespace ITicketSystem.Areas.Admin.Controllers
         }
 
         #region API
-        public IActionResult GetAll()
+       
+        [HttpGet]
+        public IActionResult All()
         {
             var users = _db.ApplicationUsers.Select(x => new
             {
-               user = x,
-               role = _userManager.GetRolesAsync(x).Result[0]
+                user = x
+                //role = _roleHelper.GetRoleName(x.Id).Result //Need to check, working on dev but not in production
+                //Workaround was change with Position in DT.
             });
-            var jsonData = new
-            {
-                data = users
-            };
-
-
-            return Ok(jsonData);
+           
+            return Json(new { data = users });
         }
 
         [HttpDelete]
