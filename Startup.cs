@@ -1,6 +1,7 @@
 using AspNetCoreHero.ToastNotification;
 using ITicketSystem.Data;
 using ITicketSystem.Utility;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ITicketSystem
@@ -36,12 +39,36 @@ namespace ITicketSystem
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
-                           .AddEntityFrameworkStores<ApplicationDbContext>();
+                           .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            services.AddAuthentication()
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = Configuration.GetSection("JWT:Audience").Get<string>(),
+                    ValidIssuer = Configuration.GetSection("JWT:Issuer").Get<string>(),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("JWT:SecretKey").Get<string>()))
+                };
+            })
+            .AddCookie(options =>
+            {
+
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            });
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
             });
+
+            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddScoped<IDbSeeder, DbSeeder>();
             services.AddScoped<IAssignationManager, AssignationManager>();
             services.AddScoped<IRoleHelper, RoleHelper>();

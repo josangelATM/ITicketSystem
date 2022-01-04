@@ -83,6 +83,7 @@ namespace ITicketSystem.Areas.IT.Controllers
                 Value = Const.Status_Failed
             });
             statusOptions.Add(new SelectListItem()
+
             {
                 Text = Const.Status_Working,
                 Value = Const.Status_Working
@@ -104,10 +105,7 @@ namespace ITicketSystem.Areas.IT.Controllers
             _db.SaveChanges();
 
             _notyf.Success("Ticket updated.");
-            if (User.IsInRole(Const.Role_Admin))
-            {
-                return RedirectToAction("AdminIndex");
-            }
+          
             return RedirectToAction("Index");
             
         }

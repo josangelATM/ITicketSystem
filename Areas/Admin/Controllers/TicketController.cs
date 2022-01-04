@@ -62,16 +62,7 @@ namespace ITicketSystem.Areas.Admin.Controllers
             return Ok(jsonData);
         }
 
-        public IActionResult Test()
-        {
-
-            return Json(new
-            {
-                success = true,
-                message = "Appi"
-            });
-        }
-
+  
         [HttpDelete]
         public IActionResult Delete(int id)
         {

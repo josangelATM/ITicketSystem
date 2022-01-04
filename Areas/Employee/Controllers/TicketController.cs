@@ -118,8 +118,6 @@ namespace ITicketSystem.Areas.Employee.Controllers
         //Employee/Ticket/GetTickets
         public IActionResult GetTickets(string Id)
         {
-
-            _logger.LogInformation(Id);
             var tickets = _db.Tickets.Where(a => a.RequesterId == Id).Select(x => new
             {
                 ticket = x,
